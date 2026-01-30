@@ -2,6 +2,7 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Classificação de Atletas</title>
 
     <style>
@@ -17,14 +18,16 @@
         margin-bottom: 30px;
       }
 
-      /* Wrapper responsivo */
+      /* Wrapper responsivo – scroll lateral, sem miniaturizar */
       .table-container {
         width: 100%;
         overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
       }
 
       table {
-        width: 100%;
+        width: max-content;
         min-width: 700px;
         /* impede quebrar colunas */
         border-collapse: collapse;
@@ -71,7 +74,7 @@
         }
       }
 
-      /* 📱 Mobile */
+      /* 📱 Mobile – tamanho legível, scroll lateral */
       @media (max-width: 640px) {
         body {
           padding: 16px;
@@ -83,8 +86,8 @@
 
         th,
         td {
-          padding: 8px;
-          font-size: 13px;
+          padding: 10px;
+          font-size: 15px;
         }
       }
     </style>
@@ -162,7 +165,7 @@
         lista.forEach((a, index) => {
           const tr = document.createElement("tr")
 
-          if (index === 0) tr.classList.add("first")
+          if (index < 4) tr.classList.add("first")
 
           tr.innerHTML = `
           <td>${index + 1}</td>
