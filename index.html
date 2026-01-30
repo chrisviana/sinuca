@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Classificação de Atletas</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #0f172a;
+        color: white;
+        padding: 40px;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      /* Wrapper responsivo */
+      .table-container {
+        width: 100%;
+        overflow-x: auto;
+      }
+
+      table {
+        width: 100%;
+        min-width: 700px;
+        /* impede quebrar colunas */
+        border-collapse: collapse;
+        background: #1e293b;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      th,
+      td {
+        padding: 12px;
+        text-align: center;
+        white-space: nowrap;
+      }
+
+      th {
+        background: #334155;
+        font-weight: bold;
+      }
+
+      tr:nth-child(even) {
+        background: #273449;
+      }
+
+      tr:hover {
+        background: #334155;
+      }
+
+      .first {
+        background: #16a34a !important;
+        font-weight: bold;
+      }
+
+      /* 📱 Tablet */
+      @media (max-width: 1024px) {
+        body {
+          padding: 24px;
+        }
+
+        th,
+        td {
+          padding: 10px;
+          font-size: 14px;
+        }
+      }
+
+      /* 📱 Mobile */
+      @media (max-width: 640px) {
+        body {
+          padding: 16px;
+        }
+
+        h1 {
+          font-size: 20px;
+        }
+
+        th,
+        td {
+          padding: 8px;
+          font-size: 13px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>🏆 Classificação Torneio Relâmpago 2026 ⚡️</h1>
+
+    <div class="table-container">
+      <table id="rankingTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Atleta</th>
+            <th>Pontos</th>
+            <th>Vitórias</th>
+            <th>Derrotas</th>
+            <th>Saldo</th>
+            <th>Aproveitamento</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <script>
+      /*
+      🔥 EDITE AQUI OS DADOS MANUALMENTE
+      Você pode alterar pontos, vitórias e derrotas
+    */
+
+      const atletas = [
+        { nome: "Christian", pontos: 0, vitorias: 0, derrotas: 0 },
+        { nome: "Meller", pontos: 0, vitorias: 0, derrotas: 0 },
+        { nome: "Coca", pontos: 0, vitorias: 0, derrotas: 0 },
+        { nome: "Eduardo", pontos: 0, vitorias: 0, derrotas: 0 },
+        { nome: "Everton", pontos: 0, vitorias: 0, derrotas: 0 },
+        { nome: "Fabiano", pontos: 0, vitorias: 0, derrotas: 0 },
+        { nome: "Filipe", pontos: 0, vitorias: 0, derrotas: 0 },
+        { nome: "Guilherme D", pontos: 0, vitorias: 0, derrotas: 0 },
+        { nome: "Mangilli", pontos: 0, vitorias: 0, derrotas: 0 },
+        { nome: "Peterson", pontos: 0, vitorias: 0, derrotas: 0 },
+        { nome: "Marlon", pontos: 0, vitorias: 0, derrotas: 0 },
+        { nome: "Robison", pontos: 0, vitorias: 0, derrotas: 0 },
+      ]
+
+      function calcularDados(lista) {
+        return lista.map((a) => {
+          const saldo = a.vitorias - a.derrotas
+          const totalJogos = a.vitorias + a.derrotas
+          const aproveitamento = totalJogos === 0 ? 0 : a.vitorias / totalJogos
+
+          return {
+            ...a,
+            saldo,
+            aproveitamento,
+          }
+        })
+      }
+
+      function ordenarClassificacao(lista) {
+        return lista.sort((a, b) => {
+          // 1️⃣ Pontos
+          if (b.pontos !== a.pontos) return b.pontos - a.pontos
+
+          // 2️⃣ Saldo (desempate)
+          return b.saldo - a.saldo
+        })
+      }
+
+      function renderTabela(lista) {
+        const tbody = document.querySelector("#rankingTable tbody")
+        tbody.innerHTML = ""
+
+        lista.forEach((a, index) => {
+          const tr = document.createElement("tr")
+
+          if (index === 0) tr.classList.add("first")
+
+          tr.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${a.nome}</td>
+          <td>${a.pontos}</td>
+          <td>${a.vitorias}</td>
+          <td>${a.derrotas}</td>
+          <td>${a.saldo}</td>
+          <td>${(a.aproveitamento * 100).toFixed(1)}%</td>
+        `
+
+          tbody.appendChild(tr)
+        })
+      }
+
+      function init() {
+        let dados = calcularDados(atletas)
+        dados = ordenarClassificacao(dados)
+        renderTabela(dados)
+      }
+
+      init()
+    </script>
+  </body>
+</html>
